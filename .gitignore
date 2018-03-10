@@ -1,0 +1,9 @@
+/test/*
+!test/.gitkeep
+/vendor/
+
+# IDE integration
+/.idea/*
+!/.idea/go.imports.xml
+!/.idea/modules.xml
+!/.idea/*.iml
