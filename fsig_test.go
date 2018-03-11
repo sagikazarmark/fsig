@@ -8,7 +8,7 @@ import (
 )
 
 func TestFsig(t *testing.T) {
-	os.Args = []string{"fsig", "-w", "test", "HUP", "--", "sh", "test.sh"}
+	os.Args = []string{"fsig", "-w", "test", "1", "--", "sh", "test.sh"}
 
 	go func() {
 		time.Sleep(2 * time.Second)
