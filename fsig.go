@@ -12,6 +12,13 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
+var (
+	watch = kingpin.Flag("watch", "Watched directory (at least one)").Short('w').Required().Strings()
+	sig   = signalArg(kingpin.Arg("signal", "Signal to be sent to the child process").Required())
+	cmd   = kingpin.Arg("cmd", "Child process command").Required().String()
+	args  = kingpin.Arg("args", "Child process arguments").Strings()
+)
+
 func init() {
 	kingpin.CommandLine.Name = "fsig"
 	kingpin.CommandLine.Help = "Send signals to a child process upon file changes"
@@ -19,11 +26,6 @@ func init() {
 }
 
 func main() {
-	watch := kingpin.Flag("watch", "Watched directory (at least one)").Short('w').Required().Strings()
-	sig := signalArg(kingpin.Arg("signal", "Signal to be sent to the child process").Required())
-	cmd := kingpin.Arg("cmd", "Child process command").Required().String()
-	args := kingpin.Arg("args", "Child process arguments").Strings()
-
 	kingpin.Parse()
 
 	watcher := newWatcher(*watch)
@@ -34,7 +36,10 @@ func main() {
 
 	done := make(chan struct{})
 
-	child.Start()
+	err := child.Start()
+	if err != nil {
+		log.Fatalln("error:", err)
+	}
 
 	go func() {
 		for {
@@ -66,7 +71,7 @@ func main() {
 		}
 	}()
 
-	err := child.Wait()
+	err = child.Wait()
 	close(done)
 
 	if err != nil {
