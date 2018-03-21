@@ -11,6 +11,13 @@ This project was born because of the need to reload applications upon Kubernetes
 but it can be used without the containerization stuff as well.
 
 
+## Usage
+
+```bash
+$ fsig -w watched/dir HUP -- ./my_program --arg
+```
+
+
 ## Alternatives
 
 fsig might not always fit your use case.
