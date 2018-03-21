@@ -4,6 +4,7 @@
 
 # IDE integration
 /.idea/*
+!/.idea/runConfigurations/
 !/.idea/go.imports.xml
 !/.idea/modules.xml
 !/.idea/*.iml

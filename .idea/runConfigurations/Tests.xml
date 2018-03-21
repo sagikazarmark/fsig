@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tests" type="GoTestRunConfiguration" factoryName="Go Test">
+    <module name="fsig" />
+    <working_directory value="$PROJECT_DIR$/" />
+    <framework value="gotest" />
+    <kind value="DIRECTORY" />
+    <package value="github.com/sagikazarmark/fsig" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$" />
+    <method />
+  </configuration>
+</component>
