@@ -25,3 +25,11 @@ before_install:
 install: dep ensure -vendor-only
 
 script: go test
+
+deploy:
+    provider: script
+    skip_cleanup: true
+    script: bin get goreleaser/goreleaser@0.62.5 $HOME/bin && goreleaser
+    on:
+        tags: true
+        condition: $TRAVIS_OS_NAME = linux && $TRAVIS_GO_VERSION =~ ^1\.10(\.[0-9]+)?$
