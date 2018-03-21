@@ -10,6 +10,12 @@ import (
 type signalValue syscall.Signal
 
 func (s *signalValue) Set(value string) error {
+	if sig, ok := signals[value]; ok {
+		*s = (signalValue)(sig)
+
+		return nil
+	}
+
 	sig, err := strconv.Atoi(value)
 	if err != nil {
 		return err
