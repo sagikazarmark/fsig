@@ -12,6 +12,11 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
+// Provisioned by ldflags
+var (
+	Version string
+)
+
 var (
 	watch = kingpin.Flag("watch", "Watched directory (at least one)").Short('w').Required().Strings()
 	sig   = signalArg(kingpin.Arg("signal", "Signal to be sent to the child process").Required())
@@ -22,7 +27,7 @@ var (
 func init() {
 	kingpin.CommandLine.Name = "fsig"
 	kingpin.CommandLine.Help = "Send signals to a child process upon file changes"
-	kingpin.CommandLine.Version("1.0.0")
+	kingpin.CommandLine.Version(Version)
 }
 
 func main() {
