@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -34,14 +33,14 @@ func main() {
 	kingpin.Parse()
 
 	watcher := newWatcher(*watch)
-	child := newChild(*cmd, *args)
+	childCmd := newChildCommand(*cmd, *args)
 
 	signals := make(chan os.Signal)
 	signal.Notify(signals, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL) // TODO: which signals should be forwarded?
 
 	done := make(chan struct{})
 
-	err := child.Start()
+	err := childCmd.Start()
 	if err != nil {
 		log.Fatalln("error:", err)
 	}
@@ -53,30 +52,30 @@ func main() {
 			case <-done: // Process exited
 				return
 
-			case sig := <-signals: // Forwarding signal to child process
-				err := child.Process.Signal(sig)
+			case sig := <-signals: // Forwarding signal to childCmd process
+				err := childCmd.Process.Signal(sig)
 				if err != nil {
 					log.Println("error:", err)
-					child.Process.Kill()
+					childCmd.Process.Kill()
 				}
 
 			case event := <-watcher.Events: // Change detected
 				if event.Op&fsnotify.Create == fsnotify.Create { // TODO: which changes should be watched?
-					err := child.Process.Signal(*sig)
+					err := childCmd.Process.Signal(*sig)
 					if err != nil {
 						log.Println("error:", err)
-						child.Process.Kill()
+						childCmd.Process.Kill()
 					}
 				}
 
 			case err := <-watcher.Errors: // Error watching changes
 				log.Println("error:", err)
-				child.Process.Kill()
+				childCmd.Process.Kill()
 			}
 		}
 	}()
 
-	err = child.Wait()
+	err = childCmd.Wait()
 	close(done)
 
 	if err != nil {
@@ -92,9 +91,7 @@ func newWatcher(watch []string) *fsnotify.Watcher {
 	watcher, err := fsnotify.NewWatcher()
 
 	if err != nil {
-		fmt.Println(err)
-
-		os.Exit(2)
+		log.Fatalln(err)
 	}
 
 	for _, w := range watch {
@@ -104,7 +101,7 @@ func newWatcher(watch []string) *fsnotify.Watcher {
 	return watcher
 }
 
-func newChild(cmd string, args []string) *exec.Cmd {
+func newChildCommand(cmd string, args []string) *exec.Cmd {
 	childCmd := exec.Command(cmd, args...)
 
 	childCmd.Env = os.Environ()
