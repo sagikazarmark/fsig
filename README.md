@@ -5,7 +5,7 @@
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/sagikazarmark/fsig)
 
 
-**Send signals to a subprocess when files change**
+**Send signals to a child process upon file changes**
 
 This project was born because of the need to reload applications upon Kubernetes ConfigMap changes,
 but it can be used without the containerization stuff as well.
