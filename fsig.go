@@ -52,7 +52,7 @@ func main() {
 			case <-done: // Process exited
 				return
 
-			case sig := <-signals: // Forwarding signal to childCmd process
+			case sig := <-signals: // Forwarding signal to child process
 				err := childCmd.Process.Signal(sig)
 				if err != nil {
 					log.Println("error:", err)
