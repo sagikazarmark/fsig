@@ -53,6 +53,8 @@ func main() {
 				return
 
 			case sig := <-signals: // Forwarding signal to child process
+				log.Println("received signal:", sig)
+
 				err := childCmd.Process.Signal(sig)
 				if err != nil {
 					fail(childCmd, err)
@@ -60,6 +62,8 @@ func main() {
 
 			case event := <-watcher.Events: // Change detected
 				if event.Op&fsnotify.Create == fsnotify.Create { // TODO: which changes should be watched?
+					log.Println("received event:", event)
+
 					err := childCmd.Process.Signal(*sig)
 					if err != nil {
 						fail(childCmd, err)
