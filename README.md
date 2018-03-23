@@ -18,6 +18,33 @@ $ fsig -w watched/dir HUP -- ./my_program --arg
 ```
 
 
+## Installation
+
+Download a precompiled binary for the [latest](https://github.com/sagikazarmark/fsig/releases/latest) version.
+
+### Ubuntu images
+
+```dockerfile
+RUN apt-get update && apt-get install -y wget
+
+ENV FSIG_VERSION 0.1.0
+RUN wget https://github.com/sagikazarmark/fsig/releases/download/${FSIG_VERSION}/fsig_linux_amd64.tar.gz \
+    && tar -C /usr/local/bin -xzvf fsig_linux_amd64.tar.gz \
+    && rm fsig_linux_amd64.tar.gz
+```
+
+### Alpine images
+
+```dockerfile
+RUN apk add --no-cache openssl
+
+ENV FSIG_VERSION 0.1.0
+RUN wget https://github.com/sagikazarmark/fsig/releases/download/${FSIG_VERSION}/fsig_linux_amd64.tar.gz \
+    && tar -C /usr/local/bin -xzvf fsig_linux_amd64.tar.gz \
+    && rm fsig_linux_amd64.tar.gz
+```
+
+
 ## Alternatives
 
 fsig might not always fit your use case.
