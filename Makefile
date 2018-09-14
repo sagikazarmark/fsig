@@ -14,6 +14,7 @@ LDFLAGS = -ldflags "-w -X main.Version=${VERSION} -X main.CommitHash=${COMMIT_HA
 # Dependency versions
 DEP_VERSION = 0.5.0
 GOLANGCI_VERSION = 1.10.2
+GORELEASER_VERSION = 0.84.0
 
 bin/dep: ## Install dep
 	@mkdir -p ./bin/
@@ -49,6 +50,14 @@ bin/golangci-lint: ## Install golangci linter
 .PHONY: lint
 lint: bin/golangci-lint ## Run linter
 	bin/golangci-lint run
+
+bin/goreleaser: ## Install goreleaser
+	@mkdir -p ./bin/
+	curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | bash -s -- v${GORELEASER_VERSION}
+
+.PHONY: release
+release: bin/goreleaser ## Release current tag
+	bin/goreleaser
 
 .PHONY: help
 .DEFAULT_GOAL := help
