@@ -16,6 +16,24 @@ which provides a similar use case for modern application (like Prometheus) run o
 
 ## Usage
 
+```
+usage: fsig --watch=WATCH [<flags>] <signal> <cmd> [<args>...]
+
+Send signals to a child process upon file changes
+
+Flags:
+      --help             Show context-sensitive help (also try --help-long and --help-man).
+  -w, --watch=WATCH ...  Watched directory (at least one)
+      --version          Show application version.
+
+Args:
+  <signal>  Signal to be sent to the child process
+  <cmd>     Child process command
+  [<args>]  Child process arguments
+```
+
+### Example
+
 ```bash
 $ fsig -w watched/dir HUP -- ./my_program --arg
 ```
