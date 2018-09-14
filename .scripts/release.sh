@@ -25,7 +25,7 @@ echo "Version updated to ${VERSION}!
 
 Review the changes made by this script then execute the following:
 
-git add CHANGELOG.md README.md && git tag -S -m 'Prepare release' && git tag -s -m 'Tag v${VERSION}' v${VERSION}
+git add CHANGELOG.md README.md && git commit -S -m 'Prepare release' && git tag -s -m 'Tag v${VERSION}' v${VERSION}
 
 
 Finally, push the changes:

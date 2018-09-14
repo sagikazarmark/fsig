@@ -10,6 +10,9 @@
 This project was born because of the need to reload applications upon Kubernetes ConfigMap changes,
 but it can be used without the containerization stuff as well.
 
+Fsig is heavily inspired by [configmap-reload](https://github.com/jimmidyson/configmap-reload)
+which provides a similar use case for modern application (like Prometheus) run on Kubernetes.
+
 
 ## Usage
 
@@ -27,7 +30,7 @@ Download a precompiled binary for the [latest](https://github.com/sagikazarmark/
 ```dockerfile
 RUN apt-get update && apt-get install -y wget
 
-ENV FSIG_VERSION 0.2.0
+ENV FSIG_VERSION 0.3.0
 RUN wget https://github.com/sagikazarmark/fsig/releases/download/v${FSIG_VERSION}/fsig_${FSIG_VERSION}_linux_amd64.tar.gz \
     && tar -C /usr/local/bin -xzvf fsig_${FSIG_VERSION}_linux_amd64.tar.gz fsig \
     && rm fsig_linux_amd64.tar.gz
@@ -38,7 +41,7 @@ RUN wget https://github.com/sagikazarmark/fsig/releases/download/v${FSIG_VERSION
 ```dockerfile
 RUN apk add --no-cache openssl
 
-ENV FSIG_VERSION 0.2.0
+ENV FSIG_VERSION 0.3.0
 RUN wget https://github.com/sagikazarmark/fsig/releases/download/v${FSIG_VERSION}/fsig_${FSIG_VERSION}_linux_amd64.tar.gz \
     && tar -C /usr/local/bin -xzvf fsig_${FSIG_VERSION}_linux_amd64.tar.gz fsig \
     && rm fsig_linux_amd64.tar.gz

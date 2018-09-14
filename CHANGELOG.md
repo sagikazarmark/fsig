@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.3.0] - 2018-09-14
+
 ## Added
 
 - Release script
@@ -22,5 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial release
 
 
-[Unreleased]: https://github.com/sagikazarmark/fsig/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/sagikazarmark/fsig/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/sagikazarmark/fsig/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/sagikazarmark/fsig/compare/0.1.0...v0.2.0
