@@ -36,7 +36,7 @@ func main() {
 	childCmd := newChildCommand(*cmd, *args)
 
 	signals := make(chan os.Signal)
-	signal.Notify(signals, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL) // TODO: which signals should be forwarded?
+	signal.Notify(signals, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 
 	done := make(chan struct{})
 
