@@ -3,8 +3,13 @@
 /vendor/
 
 # IDE integration
+/.vscode/*
+!/.vscode/tasks.json
 /.idea/*
-!/.idea/runConfigurations/
+!/.idea/copyright/
+!/.idea/*.iml
+!/.idea/externalDependencies.xml
 !/.idea/go.imports.xml
 !/.idea/modules.xml
-!/.idea/*.iml
+!/.idea/runConfigurations/
+!/.idea/scopes/
