@@ -119,7 +119,7 @@ func newChildCommand(cmd string, args []string) *exec.Cmd {
 func fail(cmd *exec.Cmd, err error) {
 	e := cmd.Process.Kill()
 	if e != nil {
-		log.Println(err)
+		log.Println("process exit error:", err)
 	}
 
 	log.Fatalln(err)
