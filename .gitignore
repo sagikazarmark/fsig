@@ -1,4 +1,5 @@
 /bin/
+/build/
 /test/*
 !test/.gitkeep
 /vendor/
