@@ -33,7 +33,10 @@ func TestFsig(t *testing.T) {
 			go func() {
 				time.Sleep(2 * time.Second)
 
-				os.Create("test/" + strconv.FormatInt(time.Now().Unix(), 10))
+				_, err := os.Create("test/" + strconv.FormatInt(time.Now().Unix(), 10))
+				if err != nil {
+					t.Error(err)
+				}
 			}()
 
 			main()

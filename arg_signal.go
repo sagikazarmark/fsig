@@ -26,6 +26,7 @@ func (s *signalValue) Set(value string) error {
 	return nil
 }
 
+// nolint
 func (s *signalValue) String() string {
 	return s.String()
 }

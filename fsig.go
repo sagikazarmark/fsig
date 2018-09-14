@@ -96,7 +96,10 @@ func newWatcher(watch []string) *fsnotify.Watcher {
 	}
 
 	for _, w := range watch {
-		watcher.Add(w)
+		err := watcher.Add(w)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 
 	return watcher
@@ -114,6 +117,10 @@ func newChildCommand(cmd string, args []string) *exec.Cmd {
 }
 
 func fail(cmd *exec.Cmd, err error) {
-	cmd.Process.Kill()
+	e := cmd.Process.Kill()
+	if e != nil {
+		log.Println(err)
+	}
+
 	log.Fatalln(err)
 }
