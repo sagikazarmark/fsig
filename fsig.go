@@ -55,7 +55,7 @@ func main() {
 			case sig := <-signals: // Forwarding signal to child process
 				log.Println("received signal:", sig)
 
-				err := childCmd.Process.Signal(sig)
+				err := sendSignal(childCmd.Process, sig)
 				if err != nil {
 					fail(childCmd, err)
 				}
@@ -64,7 +64,7 @@ func main() {
 				if event.Op&fsnotify.Create == fsnotify.Create { // TODO: which changes should be watched?
 					log.Println("received event:", event)
 
-					err := childCmd.Process.Signal(*sig)
+					err := sendSignal(childCmd.Process, *sig)
 					if err != nil {
 						fail(childCmd, err)
 					}
@@ -103,17 +103,6 @@ func newWatcher(watch []string) *fsnotify.Watcher {
 	}
 
 	return watcher
-}
-
-func newChildCommand(cmd string, args []string) *exec.Cmd {
-	childCmd := exec.Command(cmd, args...)
-
-	childCmd.Env = os.Environ()
-	childCmd.Stdin = os.Stdin
-	childCmd.Stdout = os.Stdout
-	childCmd.Stderr = os.Stderr
-
-	return childCmd
 }
 
 func fail(cmd *exec.Cmd, err error) {

@@ -2,12 +2,16 @@ package main
 
 import (
 	"os"
+	"runtime"
 	"strconv"
 	"testing"
 	"time"
 )
 
 func TestFsig(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows does not support some UNIX-like signals")
+	}
 	tests := []struct {
 		name   string
 		signal string
