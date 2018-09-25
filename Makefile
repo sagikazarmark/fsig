@@ -16,9 +16,12 @@ DEP_VERSION = 0.5.0
 GOLANGCI_VERSION = 1.10.2
 GORELEASER_VERSION = 0.84.0
 
-bin/dep: ## Install dep
-	@mkdir -p ./bin/
+bin/dep: bin/dep-${DEP_VERSION}
+bin/dep-${DEP_VERSION}:
+	@mkdir -p bin
+	@rm -rf bin/dep-*
 	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | INSTALL_DIRECTORY=./bin DEP_RELEASE_TAG=v${DEP_VERSION} sh
+	@touch $@
 
 .PHONY: vendor
 vendor: bin/dep ## Install dependencies
@@ -43,17 +46,23 @@ test: ## Run all tests
 test-%: ## Run a specific test suite
 	go test -tags '$*' ${ARGS} ./...
 
-bin/golangci-lint: ## Install golangci linter
-	@mkdir -p ./bin/
+bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
+bin/golangci-lint-${GOLANGCI_VERSION}:
+	@mkdir -p bin
+	@rm -rf bin/golangci-lint-*
 	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b ./bin/ v${GOLANGCI_VERSION}
+	@touch $@
 
 .PHONY: lint
 lint: bin/golangci-lint ## Run linter
 	bin/golangci-lint run
 
-bin/goreleaser: ## Install goreleaser
-	@mkdir -p ./bin/
+bin/goreleaser: bin/goreleaser-${GORELEASER_VERSION}
+bin/goreleaser-${GORELEASER_VERSION}:
+	@mkdir -p bin
+	@rm -rf bin/goreleaser-*
 	curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | bash -s -- v${GORELEASER_VERSION}
+	@touch $@
 
 .PHONY: release
 release: bin/goreleaser ## Release current tag
