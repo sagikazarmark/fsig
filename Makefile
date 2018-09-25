@@ -89,7 +89,7 @@ endif
 	@echo "Review the changes made by this script then execute the following:"
 ifneq ($(TAG), true)
 	@echo
-	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release v$*' && git tag -s -m 'Release v$*' v$*"
+	@echo "git add CHANGELOG.md README.md && git commit -S -m 'Prepare release v$*' && git tag -s -m 'Release v$*' v$*"
 	@echo
 	@echo "Finally, push the changes:"
 endif
