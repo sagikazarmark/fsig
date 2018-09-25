@@ -59,6 +59,46 @@ bin/goreleaser: ## Install goreleaser
 release: bin/goreleaser ## Release current tag
 	bin/goreleaser
 
+release-%: ## Release a new version
+	@sed -e "s/^## \[Unreleased\]$$/## [Unreleased]\\"$$'\n'"\\"$$'\n'"\\"$$'\n'"## [$*] - $$(date +%Y-%m-%d)/g" CHANGELOG.md > CHANGELOG.md.new
+	@mv CHANGELOG.md.new CHANGELOG.md
+
+	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/v$*...HEAD\\"$$'\n'"[$*]: \1v$*|g" CHANGELOG.md > CHANGELOG.md.new
+	@mv CHANGELOG.md.new CHANGELOG.md
+
+	@sed -e "s/ENV FSIG_VERSION .*/ENV FSIG_VERSION $*/g" README.md > README.md.new
+	@mv README.md.new README.md
+
+ifeq ($(TAG), true)
+	git add CHANGELOG.md README.md
+	git commit -s -S -m 'Prepare release v$*'
+	git tag -s -m 'Release v$*' v$*
+endif
+
+	@echo "Version updated to $*!"
+	@echo
+	@echo "Review the changes made by this script then execute the following:"
+ifneq ($(TAG), true)
+	@echo
+	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release v$*' && git tag -s -m 'Release v$*' v$*"
+	@echo
+	@echo "Finally, push the changes:"
+endif
+	@echo
+	@echo "git push; git push --tags"
+
+.PHONY: patch
+patch: ## Release a new patch version
+	@$(MAKE) release-$(shell git describe --abbrev=0 --tags | sed 's/^v//' | awk -F'[ .]' '{print $$1"."$$2"."$$3+1}')
+
+.PHONY: minor
+minor: ## Release a new minor version
+	@$(MAKE) release-$(shell git describe --abbrev=0 --tags | sed 's/^v//' | awk -F'[ .]' '{print $$1"."$$2+1".0"}')
+
+.PHONY: major
+major: ## Release a new major version
+	@$(MAKE) release-$(shell git describe --abbrev=0 --tags | sed 's/^v//' | awk -F'[ .]' '{print $$1+1".0.0"}')
+
 .PHONY: help
 .DEFAULT_GOAL := help
 help:
